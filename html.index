@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VSTEP Speaking Lesson 5: Music • Interactive Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-base: #090d16;
+      --bg-surface: #111827;
+      --bg-card: rgba(255,255,255,0.045);
+      --border: rgba(255,255,255,0.10);
+      --border-accent: rgba(139,92,246,0.45);
+      --primary: #8b5cf6;
+      --primary-light: #a78bfa;
+      --secondary: #0d9488;
+      --accent-pink: #ec4899;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-sub: #cbd5e1;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Plus Jakarta Sans',sans-serif;background-color:var(--bg-base);color:var(--text-main);min-height:100vh;line-height:1.6;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;z-index:-1;background:radial-gradient(circle 600px at 80% 10%,rgba(139,92,246,0.15),transparent 70%),radial-gradient(circle 500px at 15% 90%,rgba(13,148,136,0.12),transparent 70%);pointer-events:none;}
+    h1,h2,h3,h4,h5,h6,.brand-title{font-family:'Outfit',sans-serif;font-weight:700;}
+    .app-header{position:sticky;top:0;z-index:100;backdrop-filter:blur(24px);background:rgba(9,13,22,0.88);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+    .brand-group{display:flex;align-items:center;gap:14px;}
+    .brand-logo-badge{background:linear-gradient(135deg,var(--primary),var(--accent-pink));color:#fff;font-family:'Outfit',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:1.5px;padding:6px 14px;border-radius:var(--radius-sm);text-transform:uppercase;}
+    .brand-text h1{font-size:1.25rem;font-weight:800;background:linear-gradient(90deg,#ffffff 40%,var(--primary-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-size:0.85rem;font-weight:600;padding:8px 16px;border-radius:var(--radius-sm);border:1px solid transparent;cursor:pointer;transition:var(--transition);text-decoration:none;color:#fff;}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),#7c3aed);box-shadow:0 4px 14px rgba(139,92,246,0.35);}
+    .btn-teal{background:linear-gradient(135deg,var(--secondary),#0f766e);}
+    .btn-ghost{background:rgba(255,255,255,0.06);border-color:var(--border);}
+    .btn-ghost:hover{background:rgba(255,255,255,0.12);}
+    .nav-bar-wrapper{background:rgba(17,24,39,0.95);border-bottom:1px solid var(--border);position:sticky;top:61px;z-index:90;backdrop-filter:blur(16px);overflow-x:auto;}
+    .nav-tabs{max-width:1400px;margin:0 auto;display:flex;padding:0 20px;gap:4px;}
+    .nav-tab{display:flex;align-items:center;gap:6px;padding:12px 14px;font-family:'Outfit',sans-serif;font-weight:600;font-size:0.82rem;color:var(--text-muted);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:var(--transition);white-space:nowrap;}
+    .nav-tab.active{color:var(--primary-light);border-bottom-color:var(--primary);background:rgba(139,92,246,0.08);}
+    .tab-badge{font-size:0.7rem;padding:2px 7px;border-radius:99px;background:rgba(255,255,255,0.1);color:var(--text-sub);}
+    .nav-tab.active .tab-badge{background:var(--primary);color:#fff;font-weight:700;}
+    .main-content{max-width:1400px;margin:0 auto;padding:26px 20px 80px;}
+    .tab-panel{display:none;}
+    .tab-panel.active{display:block;}
+    .section-hero{background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(13,148,136,0.08));border:1px solid var(--border-accent);border-radius:var(--radius-lg);padding:24px 28px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
+    .hero-badge-tag{display:inline-block;font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--primary-light);background:rgba(139,92,246,0.2);padding:3px 10px;border-radius:99px;margin-bottom:8px;}
+    .card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;margin-bottom:20px;box-shadow:0 4px 20px rgba(0,0,0,0.25);}
+    .warmup-game-container{max-width:900px;margin:0 auto;}
+    .game-arena{background:linear-gradient(145deg,#181133,#0f172a);border:2px solid var(--border-accent);border-radius:var(--radius-lg);padding:30px;text-align:center;box-shadow:0 10px 40px rgba(139,92,246,0.2);}
+    .audio-player-box{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;margin:20px 0;display:flex;flex-direction:column;align-items:center;gap:16px;}
+    .vinyl-record{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#2d1b69 15%,#0f0a24 16%,#0f0a24 35%,#1a103c 36%,#1a103c 55%,#090616 56%);border:4px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;box-shadow:0 0 25px rgba(139,92,246,0.4);animation:spinVinyl 4s linear infinite;animation-play-state:paused;}
+    .vinyl-record.playing{animation-play-state:running;}
+    @keyframes spinVinyl{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+    .vinyl-center{width:44px;height:44px;border-radius:50%;background:var(--primary);border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+    .guess-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0;}
+    .opt-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:600;color:#fff;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;}
+    .opt-letter{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.1);color:var(--primary-light);font-size:0.95rem;font-weight:700;margin-right:10px;flex-shrink:0;transition:var(--transition);}
+    .opt-btn:hover:not(:disabled){background:rgba(139,92,246,0.2);border-color:var(--primary);transform:translateY(-2px);}
+    .opt-btn.correct{background:rgba(16,185,129,0.25)!important;border-color:#10b981!important;color:#34d399!important;}
+    .opt-btn.correct .opt-letter{background:rgba(16,185,129,0.35);color:#34d399;}
+    .opt-btn.wrong{background:rgba(239,68,68,0.2)!important;border-color:#ef4444!important;color:#f87171!important;}
+    .opt-btn.wrong .opt-letter{background:rgba(239,68,68,0.35);color:#f87171;}
+    .reveal-card{display:none;background:rgba(13,148,136,0.15);border:1px solid rgba(13,148,136,0.4);border-radius:var(--radius-md);padding:20px;margin-top:20px;}
+    .playlist-bar{display:flex;gap:8px;overflow-x:auto;padding:12px 4px;margin-top:20px;}
+    .playlist-chip{padding:8px 16px;border-radius:99px;background:rgba(255,255,255,0.06);border:1px solid var(--border);color:var(--text-muted);cursor:pointer;white-space:nowrap;font-size:0.82rem;font-weight:600;}
+    .playlist-chip.active{background:var(--primary);color:#fff;border-color:var(--primary-light);}
+    .vocab-table{width:100%;border-collapse:collapse;margin-top:10px;}
+    .vocab-table th{background:rgba(255,255,255,0.06);padding:12px 14px;text-align:left;font-family:'Outfit',sans-serif;font-size:0.8rem;font-weight:700;text-transform:uppercase;color:var(--text-sub);border-bottom:1px solid var(--border);}
+    .vocab-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9rem;}
+    .vocab-badge{display:inline-block;font-size:0.72rem;font-weight:700;padding:1px 6px;border-radius:4px;margin-left:6px;background:rgba(139,92,246,0.2);color:var(--primary-light);}
+    .q-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:12px;overflow:hidden;transition:var(--transition);}
+    .q-header{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+    .q-body{display:none;padding:0 20px 20px;border-top:1px solid rgba(255,255,255,0.05);background:rgba(0,0,0,0.25);}
+    .q-item.open .q-body{display:block;padding-top:18px;}
+    .answers-comparison{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;}
+    @media(max-width:768px){.answers-comparison{grid-template-columns:1fr;}.guess-options-grid{grid-template-columns:1fr;}}
+    .sample-box{border-radius:var(--radius-sm);padding:14px 16px;font-size:0.92rem;}
+    .sample-b1{background:rgba(13,148,136,0.1);border:1px solid rgba(13,148,136,0.3);}
+    .sample-b2{background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);}
+    .floating-timer{position:fixed;bottom:24px;right:24px;z-index:1000;background:rgba(17,24,39,0.95);backdrop-filter:blur(20px);border:1px solid var(--border-accent);border-radius:var(--radius-lg);padding:10px 18px;box-shadow:0 10px 40px rgba(0,0,0,0.6);display:flex;align-items:center;gap:12px;}
+    .timer-display{font-family:'Outfit',sans-serif;font-size:1.7rem;font-weight:800;color:#fff;}
+    .timer-display.active-run{color:var(--primary-light);}
+
+    /* ===== ACTIVITY 1: BAY BAY VOCAB ===== */
+    .act1-pool-area{background:rgba(0,0,0,0.3);border:2px dashed var(--border-accent);border-radius:var(--radius-lg);padding:20px;margin-bottom:24px;min-height:100px;display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;}
+    .vocab-pill{display:inline-flex;align-items:center;padding:8px 16px;border-radius:99px;background:linear-gradient(135deg,rgba(139,92,246,0.25),rgba(236,72,153,0.15));border:1px solid rgba(139,92,246,0.5);color:#fff;font-family:'Outfit',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;transition:var(--transition);user-select:none;animation:floatIn 0.5s ease both;}
+    .vocab-pill:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 6px 20px rgba(139,92,246,0.4);background:linear-gradient(135deg,rgba(139,92,246,0.5),rgba(236,72,153,0.3));}
+    .vocab-pill.placed{opacity:0.5;cursor:default;animation:none;transform:none;}
+    @keyframes floatIn{from{opacity:0;transform:translateY(20px) scale(0.9);}to{opacity:1;transform:translateY(0) scale(1);}}
+    .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px;}
+    @media(max-width:900px){.cat-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:580px){.cat-grid{grid-template-columns:1fr;}}
+    .cat-box{background:var(--bg-surface);border:2px solid var(--border);border-radius:var(--radius-md);padding:16px;min-height:120px;transition:var(--transition);position:relative;}
+    .cat-box.highlight{border-color:var(--primary-light);background:rgba(139,92,246,0.08);}
+    .cat-box-title{font-family:'Outfit',sans-serif;font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;padding:4px 10px;border-radius:99px;display:inline-block;}
+    .cat-type-music .cat-box-title{background:rgba(14,165,233,0.2);color:#38bdf8;}
+    .cat-people .cat-box-title{background:rgba(236,72,153,0.2);color:#f472b6;}
+    .cat-events .cat-box-title{background:rgba(245,158,11,0.2);color:#fbbf24;}
+    .cat-parts .cat-box-title{background:rgba(16,185,129,0.2);color:#34d399;}
+    .cat-prefs .cat-box-title{background:rgba(139,92,246,0.2);color:#a78bfa;}
+    .cat-feelings .cat-box-title{background:rgba(239,68,68,0.2);color:#f87171;}
+    .cat-words{display:flex;flex-wrap:wrap;gap:6px;}
+    .cat-word-chip{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99px;font-size:0.8rem;font-weight:600;border:1px solid;cursor:pointer;transition:var(--transition);}
+    .cat-word-chip:hover{transform:scale(1.05);}
+    .cat-type-music .cat-word-chip{background:rgba(14,165,233,0.15);border-color:rgba(14,165,233,0.4);color:#7dd3fc;}
+    .cat-people .cat-word-chip{background:rgba(236,72,153,0.15);border-color:rgba(236,72,153,0.4);color:#f9a8d4;}
+    .cat-events .cat-word-chip{background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.4);color:#fcd34d;}
+    .cat-parts .cat-word-chip{background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.4);color:#6ee7b7;}
+    .cat-prefs .cat-word-chip{background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.4);color:#c4b5fd;}
+    .cat-feelings .cat-word-chip{background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.4);color:#fca5a5;}
+    .act1-score-bar{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap;}
+    .act1-score-pill{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.4);color:#34d399;font-weight:700;padding:6px 16px;border-radius:99px;font-family:'Outfit',sans-serif;font-size:0.9rem;}
+
+    /* ===== ACTIVITY 2: LEVELED QUESTIONS ===== */
+    .level-section{margin-bottom:32px;}
+    .level-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px 20px;border-radius:var(--radius-md);}
+    .level-1 .level-header{background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(6,182,212,0.08));border:1px solid rgba(16,185,129,0.3);}
+    .level-2 .level-header{background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.3);}
+    .level-3 .level-header{background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(236,72,153,0.08));border:1px solid rgba(139,92,246,0.3);}
+    .level-badge{font-family:'Outfit',sans-serif;font-weight:800;font-size:0.8rem;text-transform:uppercase;padding:4px 12px;border-radius:99px;letter-spacing:1px;}
+    .level-1 .level-badge{background:rgba(16,185,129,0.3);color:#34d399;}
+    .level-2 .level-badge{background:rgba(245,158,11,0.3);color:#fbbf24;}
+    .level-3 .level-badge{background:rgba(139,92,246,0.3);color:#a78bfa;}
+    .act2-qcard{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:14px;transition:var(--transition);}
+    .act2-qcard:hover{border-color:rgba(139,92,246,0.3);}
+    .act2-qnum{font-family:'Outfit',sans-serif;font-size:0.75rem;font-weight:800;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+    .act2-question{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:10px;}
+    .keywords-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+    .kw-pill{padding:3px 10px;border-radius:99px;font-size:0.78rem;font-weight:600;background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);color:var(--primary-light);}
+    .act2-textarea{width:100%;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;resize:vertical;min-height:70px;outline:none;transition:var(--transition);}
+    .act2-textarea:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(139,92,246,0.15);}
+    .act2-textarea::placeholder{color:var(--text-muted);}
+    .show-model-btn{margin-top:10px;font-size:0.8rem;padding:5px 14px;}
+    .model-answer-box{display:none;margin-top:10px;padding:12px 16px;border-radius:var(--radius-sm);font-size:0.9rem;line-height:1.65;}
+    .level-1 .model-answer-box{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);color:#a7f3d0;}
+    .level-2 .model-answer-box{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);color:#fde68a;}
+    .level-3 .model-answer-box{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25);color:#ddd6fe;}
+    .model-answer-box.open{display:block;animation:fadeSlide 0.3s ease;}
+    @keyframes fadeSlide{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+    .highlight-kw{background:rgba(139,92,246,0.25);border-radius:3px;padding:0 2px;font-weight:700;}
+    .act2-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+
+    /* ===== TAB 5: EXPAND SHORT ANSWERS ===== */
+    .expand-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px;margin-bottom:20px;box-shadow:0 4px 20px rgba(0,0,0,0.25);transition:var(--transition);}
+    .expand-card:hover{border-color:rgba(139,92,246,0.35);}
+    .expand-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+    .expand-qtitle{font-size:1.1rem;font-weight:700;color:#fff;}
+    .short-ans-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.35);color:#fca5a5;padding:6px 14px;border-radius:99px;font-size:0.85rem;font-weight:600;}
+    .expand-hint{font-size:0.86rem;color:var(--text-muted);margin-bottom:12px;line-height:1.5;}
+    .expand-textarea{width:100%;min-height:75px;background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.92rem;line-height:1.5;resize:vertical;margin-bottom:12px;}
+    .expand-textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(139,92,246,0.2);}
+    .expand-models-box{display:none;margin-top:14px;border-radius:var(--radius-sm);overflow:hidden;}
+    .formula-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+    @media(max-width:768px){.formula-bar{grid-template-columns:1fr;}}
+    .formula-step{background:rgba(255,255,255,0.03);border:1px solid var(--border-accent);border-radius:var(--radius-sm);padding:14px 18px;}
+    .formula-step-num{font-size:0.75rem;font-weight:700;color:var(--primary-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+    .formula-step-title{font-size:0.95rem;font-weight:700;color:#fff;margin-bottom:4px;}
+    .formula-step-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.4;}
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand-group">
+      <div class="brand-logo-badge">VSTEP SPEAKING</div>
+      <div class="brand-text">
+        <h1>Lesson 5: Music • Trendy Vietnam Warm-up &amp; Masterclass</h1>
+      </div>
+    </div>
+    <div class="header-actions" style="display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="Lesson 5_Handout_A4.html" target="_blank" class="btn btn-primary">📄 In Handout A4 (4 Trang)</a>
+      <a href="Lesson 5_Activity_2_Handout_A4.html" target="_blank" class="btn btn-teal">🎯 Interactive Activity 2 (15 Câu)</a>
+      <button class="btn btn-ghost" onclick="triggerQuickTimer(45)">⏱️ Timer 45s</button>
+    </div>
+  </header>
+
+  <div class="nav-bar-wrapper">
+    <nav class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('tab-warmup')">
+        <span>🎵 1. Warm-up Đoán Nhạc</span>
+        <span class="tab-badge">10 Bài</span>
+      </button>
+      <button class="nav-tab" onclick="switchTab('tab-recycle')">
+        <span>🔄 2. Recycle 32 Từ</span>
+        <span class="tab-badge">32 Từ</span>
+      </button>
+      <button class="nav-tab" onclick="switchTab('tab-act1')">
+        <span>🎮 3. Vocab Challenge</span>
+        <span class="tab-badge">6 Nhóm</span>
+      </button>
+      <button class="nav-tab" onclick="switchTab('tab-act2')">
+        <span>📝 4. Make A Complete Answer</span>
+        <span class="tab-badge">15 Câu</span>
+      </button>
+      <button class="nav-tab" onclick="switchTab('tab-expand')">
+        <span>🚀 5. Expand Short Answers</span>
+        <span class="tab-badge">8 Câu</span>
+      </button>
+    </nav>
+  </div>
+
+  <main class="main-content">
+
+    <!-- TAB 1: WARM UP -->
+    <section id="tab-warmup" class="tab-panel active">
+      <div class="section-hero">
+        <div class="hero-info">
+          <span class="hero-badge-tag">Interactive Warm-up Game</span>
+          <h2>🎧 Game Đoán Nhạc: Name That Tune &amp; Music Genre</h2>
+          <p>Lắng nghe đoạn nhạc ngắn 30s từ các bản hit cực trendy tại Việt Nam. Đoán thể loại âm nhạc để kích hoạt từ vựng bài học!</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="restartWarmupGame()">🔄 Bắt Đầu Lại</button>
+        </div>
+      </div>
+      <div class="warmup-game-container">
+        <div class="game-arena">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span id="trackCountBadge" style="font-size:0.85rem;font-weight:700;color:var(--primary-light);text-transform:uppercase;">Bài 1 / 10</span>
+            <span id="gameScoreBadge" style="font-size:0.85rem;font-weight:700;color:#34d399;background:rgba(16,185,129,0.15);padding:4px 12px;border-radius:99px;">Điểm: 0 / 10</span>
+          </div>
+          <div class="audio-player-box">
+            <div class="vinyl-record" id="vinylRecord"><div class="vinyl-center">🎵</div></div>
+            <audio id="warmupAudioPlayer" preload="auto" onended="onAudioEnded()"></audio>
+            <div style="display:flex;gap:10px;align-items:center;margin-top:10px;">
+              <button class="btn btn-primary" id="playBtn" style="padding:10px 24px;font-size:1rem;border-radius:99px;" onclick="togglePlayPreview()">
+                <span id="playBtnIcon">▶️</span> <span id="playBtnText">Nghe Đoạn Nhạc (30s)</span>
+              </button>
+              <button class="btn btn-ghost" style="border-radius:99px;" onclick="replayPreview()">🔁 Nghe Lại</button>
+            </div>
+          </div>
+          <h3 style="font-size:1.15rem;color:#fff;margin-bottom:6px;">❓ Thể loại âm nhạc (Genre) của bài hát này là gì?</h3>
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">Hãy lắng nghe giai điệu và chọn đáp án chính xác:</p>
+          <div class="guess-options-grid" id="optionsGrid"></div>
+          <div class="reveal-card" id="revealCard">
+            <div style="display:flex;align-items:center;gap:16px;text-align:left;">
+              <img id="revealArtwork" src="" alt="Artwork" style="width:72px;height:72px;border-radius:8px;border:1px solid var(--border);" />
+              <div>
+                <h4 id="revealTitle" style="font-size:1.25rem;color:#fff;margin-bottom:2px;"></h4>
+                <p id="revealArtist" style="font-size:0.95rem;color:var(--primary-light);font-weight:600;margin-bottom:4px;"></p>
+                <p id="revealGenre" style="font-size:0.85rem;color:#34d399;font-weight:700;margin-bottom:4px;"></p>
+                <p id="revealDesc" style="font-size:0.82rem;color:var(--text-sub);font-style:italic;"></p>
+              </div>
+            </div>
+            <div style="margin-top:14px;text-align:right;">
+              <button class="btn btn-teal" onclick="nextTrack()">Bài Tiếp Theo ➡️</button>
+            </div>
+          </div>
+          <div class="playlist-bar" id="playlistBar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: RECYCLE 32 TỪ VỰNG -->
+    <section id="tab-recycle" class="tab-panel">
+      <div class="section-hero">
+        <div class="hero-info">
+          <span class="hero-badge-tag">Vocabulary Recycling</span>
+          <h2>🔄 32 Từ Vựng Trọng Tâm Topic: Music</h2>
+          <p>15 từ vựng cốt lõi (Key 1–15) và 17 từ vựng mở rộng (Advanced 16–32) kèm IPA và phát âm máy.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="color:#fff;">📋 Bảng Tổng Hợp 32 Từ Vựng</h3>
+          <input type="text" id="vocabSearchInput" onkeyup="filterVocabTable()" placeholder="🔍 Tìm kiếm từ vựng..." style="background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:6px;padding:6px 12px;color:#fff;font-size:0.85rem;width:260px;" />
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="vocab-table">
+            <thead>
+              <tr>
+                <th style="width:6%;">#</th>
+                <th style="width:32%;">Từ vựng &amp; Loại từ</th>
+                <th style="width:28%;">Phiên âm IPA</th>
+                <th style="width:24%;">Nghĩa tiếng Việt</th>
+                <th style="width:10%;text-align:center;">Phát âm</th>
+              </tr>
+            </thead>
+            <tbody id="vocabTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: VOCAB CHALLENGE -->
+    <section id="tab-act1" class="tab-panel">
+      <div class="section-hero">
+        <div class="hero-info">
+          <span class="hero-badge-tag">Mục 3 – Vocab Challenge</span>
+          <h2>🎮 Vocab Challenge: Phân Loại 6 Nhóm Music</h2>
+          <p>Phân loại 26 từ vựng trọng tâm vào đúng 6 nhóm danh mục. Bấm <strong>"👁️ Hiển Thị Đáp Án"</strong> để tra cứu và hiển thị đáp án chuẩn của cả 6 nhóm!</p>
+        </div>
+        <div class="hero-actions" style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="act1Reset()">🔄 Làm Lại Từ Đầu</button>
+          <button class="btn btn-teal" onclick="act1CheckAll()">✅ Kiểm Tra Kết Quả</button>
+          <button class="btn btn-ghost" id="act1ToggleAnsBtn" onclick="act1ToggleAnswers()">👁️ Hiển Thị Đáp Án 6 Nhóm</button>
+        </div>
+      </div>
+
+      <div class="act1-score-bar">
+        <span id="act1ScorePill" class="act1-score-pill">✔ Đã phân loại: 0 / 26</span>
+        <span id="act1ResultMsg" style="font-size:0.9rem;color:var(--text-muted);"></span>
+      </div>
+
+      <div class="card" style="margin-bottom:20px;">
+        <h3 style="color:#fff;margin-bottom:12px;font-size:0.95rem;">📦 Ô Từ Vựng Tổng Hợp — Click để phân loại:</h3>
+        <div class="act1-pool-area" id="act1Pool"></div>
+      </div>
+
+      <div class="cat-grid" id="act1CatGrid"></div>
+
+      <!-- ANSWER KEY DRAWER (DISPLAYED ON DEMAND) -->
+      <div id="act1AnswerKeyBox" style="display:none;margin-top:24px;background:rgba(13,148,136,0.1);border:1px solid rgba(13,148,136,0.35);border-radius:var(--radius-md);padding:22px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+          <h3 style="color:#2dd4bf;font-size:1.1rem;display:flex;align-items:center;gap:8px;">🎯 Bảng Đáp Án Chuẩn 6 Nhóm Từ Vựng (Answer Key)</h3>
+          <span style="font-size:0.8rem;color:var(--text-muted);background:rgba(255,255,255,0.06);padding:3px 10px;border-radius:99px;">Đủ 26 Từ Vựng</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(270px, 1fr));gap:14px;">
+          <div style="background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.3);border-radius:8px;padding:12px 14px;">
+            <strong style="color:#38bdf8;font-size:0.92rem;display:block;margin-bottom:6px;">🎼 1. Types of Music (5 từ)</strong>
+            <ul style="margin:0;padding-left:18px;color:#cbd5e1;font-size:0.86rem;line-height:1.6;">
+              <li>Types of music</li>
+              <li>Ballad</li>
+              <li>Folk music / Traditional music</li>
+              <li>Classical music</li>
+              <li>Instrumental music</li>
+            </ul>
+          </div>
+          <div style="background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.3);border-radius:8px;padding:12px 14px;">
+            <strong style="color:#f472b6;font-size:0.92rem;display:block;margin-bottom:6px;">👤 2. People in Music (4 từ)</strong>
+            <ul style="margin:0;padding-left:18px;color:#cbd5e1;font-size:0.86rem;line-height:1.6;">
+              <li>Singer / Artist</li>
+              <li>Celebrity</li>
+              <li>Adoring fans</li>
+              <li>A huge following</li>
+            </ul>
+          </div>
+          <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:12px 14px;">
+            <strong style="color:#fbbf24;font-size:0.92rem;display:block;margin-bottom:6px;">🎪 3. Music Events &amp; Performances (4 từ)</strong>
+            <ul style="margin:0;padding-left:18px;color:#cbd5e1;font-size:0.86rem;line-height:1.6;">
+              <li>Musical performance</li>
+              <li>Live concert</li>
+              <li>Music festival</li>
+              <li>Memorable concert</li>
+            </ul>
+          </div>
+          <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:12px 14px;">
+            <strong style="color:#34d399;font-size:0.92rem;display:block;margin-bottom:6px;">🎵 4. Parts &amp; Features of a Song (6 từ)</strong>
+            <ul style="margin:0;padding-left:18px;color:#cbd5e1;font-size:0.86rem;line-height:1.6;">
+              <li>Meaningful lyrics</li>
+              <li>Chorus</li>
+              <li>Melody</li>
+              <li>A piece of music</li>
+              <li>Catchy tune</li>
+              <li>Massive hit / Big hit</li>
+            </ul>
+          </div>
+          <div style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:8px;padding:12px 14px;">
+            <strong style="color:#a78bfa;font-size:0.92rem;display:block;margin-bottom:6px;">❤️ 5. Music Preferences (5 từ)</strong>
+            <ul style="margin:0;padding-left:18px;color:#cbd5e1;font-size:0.86rem;line-height:1.6;">
+              <li>Be a big fan of</li>
+              <li>Be into</li>
+              <li>Favourite genre</li>
+              <li>Taste in music</li>
+              <li>Prefer live to recorded music</li>
+            </ul>
+          </div>
+          <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 14px;">
+            <strong style="color:#f87171;font-size:0.92rem;display:block;margin-bottom:6px;">😌 6. Feelings &amp; Benefits (5 từ)</strong>
+            <ul style="margin:0;padding-left:18px;color:#cbd5e1;font-size:0.86rem;line-height:1.6;">
+              <li>Influence our emotions</li>
+              <li>Cheer sb up</li>
+              <li>Boost mood / Lift one's spirits</li>
+              <li>Relieve stress / Reduce anxiety</li>
+              <li>Unwind</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: MAKE A COMPLETE ANSWER -->
+    <section id="tab-act2" class="tab-panel">
+      <div class="section-hero">
+        <div class="hero-info">
+          <span class="hero-badge-tag">Mục 4 – Speaking Practice</span>
+          <h2>📝 Make A Complete Answer — 3 Levels</h2>
+          <p>Bắt đầu từ Level 1 (dễ) và tiến lên Level 3. Dùng keywords gợi ý để xây dựng câu trả lời hoàn chỉnh bằng tiếng Anh.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-teal" onclick="triggerQuickTimer(45)">⏱️ Timer 45s</button>
+        </div>
+      </div>
+
+      <div class="act2-controls">
+        <button class="btn btn-ghost" onclick="act2ShowAll()">👁️ Xem Tất Cả Đáp Án Mẫu</button>
+        <button class="btn btn-ghost" onclick="act2HideAll()">🙈 Ẩn Tất Cả Đáp Án</button>
+        <button class="btn btn-ghost" onclick="act2ClearAll()">🗑️ Xóa Tất Cả Câu Trả Lời</button>
+      </div>
+
+      <!-- LEVEL 1 -->
+      <div class="level-section level-1">
+        <div class="level-header">
+          <span class="level-badge">Level 1</span>
+          <h3 style="font-size:1.05rem;color:#fff;">Personal Preferences</h3>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 1</div>
+          <div class="act2-question">Do you like music? What kind?</div>
+          <div class="keywords-row"><span class="kw-pill">like</span><span class="kw-pill">pop music</span><span class="kw-pill">favourite</span></div>
+          <textarea class="act2-textarea" id="a2q1" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q1')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q1">Yes, I <span class="highlight-kw">like</span> music a lot. My <span class="highlight-kw">favourite</span> kind is <span class="highlight-kw">pop music</span> because the tunes are catchy and easy to enjoy.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 2</div>
+          <div class="act2-question">Who is your favourite singer?</div>
+          <div class="keywords-row"><span class="kw-pill">favourite singer</span><span class="kw-pill">Vietnamese singer</span><span class="kw-pill">like</span></div>
+          <textarea class="act2-textarea" id="a2q2" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q2')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q2">My <span class="highlight-kw">favourite singer</span> is a <span class="highlight-kw">Vietnamese singer</span>. I really <span class="highlight-kw">like</span> him because he has a warm voice and great stage energy.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 3</div>
+          <div class="act2-question">What kind of music do you usually listen to?</div>
+          <div class="keywords-row"><span class="kw-pill">usually listen to</span><span class="kw-pill">pop music</span><span class="kw-pill">ballads</span></div>
+          <textarea class="act2-textarea" id="a2q3" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q3')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q3">I <span class="highlight-kw">usually listen to</span> <span class="highlight-kw">pop music</span> and <span class="highlight-kw">ballads</span>. I love ballads because the melodies are gentle and the lyrics are touching.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 4</div>
+          <div class="act2-question">Can you sing?</div>
+          <div class="keywords-row"><span class="kw-pill">sing</span><span class="kw-pill">karaoke</span><span class="kw-pill">friends</span></div>
+          <textarea class="act2-textarea" id="a2q4" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q4')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q4">Not really well, but I enjoy singing at <span class="highlight-kw">karaoke</span> with my <span class="highlight-kw">friends</span>. I think <span class="highlight-kw">singing</span> is fun even if your voice isn't perfect.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 5</div>
+          <div class="act2-question">Do you play any musical instruments?</div>
+          <div class="keywords-row"><span class="kw-pill">play</span><span class="kw-pill">guitar / piano</span><span class="kw-pill">a little</span></div>
+          <textarea class="act2-textarea" id="a2q5" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q5')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q5">Yes, I can <span class="highlight-kw">play</span> the <span class="highlight-kw">guitar</span> <span class="highlight-kw">a little</span>. I taught myself online, so I only know a few basic songs.</div>
+        </div>
+      </div>
+
+      <!-- LEVEL 2 -->
+      <div class="level-section level-2">
+        <div class="level-header">
+          <span class="level-badge">Level 2</span>
+          <h3 style="font-size:1.05rem;color:#fff;">Habits, Reasons and Details</h3>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 6</div>
+          <div class="act2-question">How often do you listen to music?</div>
+          <div class="keywords-row"><span class="kw-pill">every day</span><span class="kw-pill">on my phone</span><span class="kw-pill">relax</span></div>
+          <textarea class="act2-textarea" id="a2q6" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q6')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q6">I listen to music <span class="highlight-kw">every day</span> — usually <span class="highlight-kw">on my phone</span> with headphones. It helps me <span class="highlight-kw">relax</span> after a busy day at school.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 7</div>
+          <div class="act2-question">When do you usually listen to music?</div>
+          <div class="keywords-row"><span class="kw-pill">after school</span><span class="kw-pill">listen to music</span><span class="kw-pill">unwind</span></div>
+          <textarea class="act2-textarea" id="a2q7" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q7')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q7">I usually <span class="highlight-kw">listen to music</span> <span class="highlight-kw">after school</span> when I get home. It's a great way to <span class="highlight-kw">unwind</span> and clear my mind after studying all day.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 8</div>
+          <div class="act2-question">What's your favourite song? What is it about?</div>
+          <div class="keywords-row"><span class="kw-pill">ballad</span><span class="kw-pill">meaningful lyrics</span><span class="kw-pill">beautiful melody</span></div>
+          <textarea class="act2-textarea" id="a2q8" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q8')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q8">My favourite song is a slow <span class="highlight-kw">ballad</span> about growing up and missing home. It has very <span class="highlight-kw">meaningful lyrics</span> and a <span class="highlight-kw">beautiful melody</span> that always makes me feel calm.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 9</div>
+          <div class="act2-question">Would you like to learn to play an instrument? Which one and why?</div>
+          <div class="keywords-row"><span class="kw-pill">piano</span><span class="kw-pill">beautiful sound</span><span class="kw-pill">relaxing</span></div>
+          <textarea class="act2-textarea" id="a2q9" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q9')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q9">Yes, I would love to learn the <span class="highlight-kw">piano</span>. I think it has a really <span class="highlight-kw">beautiful sound</span> and playing it looks very <span class="highlight-kw">relaxing</span> and elegant.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 10</div>
+          <div class="act2-question">Do you prefer listening to music alone or with other people?</div>
+          <div class="keywords-row"><span class="kw-pill">alone</span><span class="kw-pill">with friends</span><span class="kw-pill">sing along</span></div>
+          <textarea class="act2-textarea" id="a2q10" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q10')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q10">I usually listen <span class="highlight-kw">alone</span> with my headphones because I can focus on the lyrics. However, listening <span class="highlight-kw">with friends</span> is more fun because we can <span class="highlight-kw">sing along</span> together.</div>
+        </div>
+      </div>
+
+      <!-- LEVEL 3 -->
+      <div class="level-section level-3">
+        <div class="level-header">
+          <span class="level-badge">Level 3</span>
+          <h3 style="font-size:1.05rem;color:#fff;">Explaining Opinions</h3>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 11</div>
+          <div class="act2-question">How does music influence our emotions?</div>
+          <div class="keywords-row"><span class="kw-pill">influence our emotions</span><span class="kw-pill">boost my mood</span><span class="kw-pill">relieve stress</span></div>
+          <textarea class="act2-textarea" id="a2q11" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q11')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q11">I think music can <span class="highlight-kw">influence our emotions</span> very strongly. An upbeat song can <span class="highlight-kw">boost my mood</span> instantly, while a gentle melody can help me <span class="highlight-kw">relieve stress</span> after a long and tiring day.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 12</div>
+          <div class="act2-question">Do you prefer live music or recorded music? Why?</div>
+          <div class="keywords-row"><span class="kw-pill">prefer live to recorded music</span><span class="kw-pill">exciting atmosphere</span><span class="kw-pill">sing along</span></div>
+          <textarea class="act2-textarea" id="a2q12" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q12')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q12">Personally, I <span class="highlight-kw">prefer live to recorded music</span> because the <span class="highlight-kw">exciting atmosphere</span> of a concert is something you can never get from headphones. I love when the whole crowd <span class="highlight-kw">sings along</span> to every chorus together.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 13</div>
+          <div class="act2-question">Has your taste in music changed over the years?</div>
+          <div class="keywords-row"><span class="kw-pill">used to</span><span class="kw-pill">be into</span><span class="kw-pill">taste in music</span></div>
+          <textarea class="act2-textarea" id="a2q13" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q13')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q13">Yes, definitely. My <span class="highlight-kw">taste in music</span> has changed a lot. I <span class="highlight-kw">used to</span> only listen to children's songs, but now I am really <span class="highlight-kw">into</span> ballads and R&B because their lyrics feel more meaningful to me.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 14</div>
+          <div class="act2-question">Why do some singers become very famous?</div>
+          <div class="keywords-row"><span class="kw-pill">catchy tunes</span><span class="kw-pill">a huge following</span><span class="kw-pill">massive hit</span></div>
+          <textarea class="act2-textarea" id="a2q14" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q14')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q14">I think singers become famous when they release songs with <span class="highlight-kw">catchy tunes</span> that spread quickly on social media. Once a song becomes a <span class="highlight-kw">massive hit</span>, the artist gains <span class="highlight-kw">a huge following</span> almost overnight.</div>
+        </div>
+        <div class="act2-qcard">
+          <div class="act2-qnum">Question 15</div>
+          <div class="act2-question">Do you think music is important in people's lives? Why?</div>
+          <div class="keywords-row"><span class="kw-pill">express feelings</span><span class="kw-pill">cheer people up</span><span class="kw-pill">relieve stress</span></div>
+          <textarea class="act2-textarea" id="a2q15" placeholder="My answer: ..."></textarea>
+          <button class="btn btn-ghost show-model-btn" onclick="toggleModel('m2q15')">💡 Show Model Answer</button>
+          <div class="model-answer-box" id="m2q15">Absolutely. I believe music is extremely important because it allows people to <span class="highlight-kw">express their feelings</span> in a way that words alone cannot. It can <span class="highlight-kw">cheer people up</span> when they are sad and <span class="highlight-kw">relieve stress</span> after a difficult day.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: EXPAND SHORT ANSWERS -->
+    <section id="tab-expand" class="tab-panel">
+      <div class="section-hero">
+        <div class="hero-info">
+          <span class="hero-badge-tag">Mục 5 – Speaking Strategy</span>
+          <h2>🚀 Mở Rộng Câu Trả Lời Ngắn (Expand Short Answers)</h2>
+          <p>Trong phần thi VSTEP Speaking Part 1, câu trả lời cộc lốc (3–4 từ) khiến bạn khó đạt điểm tiêu chuẩn B1–B2. Hãy thực hành mở rộng câu trả lời bằng cách bổ sung <strong>Lý do (Why)</strong>, <strong>Chi tiết/Ví dụ (Details)</strong>, và <strong>Cảm xúc / Lợi ích (Feelings)</strong>!</p>
+        </div>
+        <div class="hero-actions" style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="showAllExpandModels()">👁️ Xem Tất Cả Gợi Ý Mẫu</button>
+          <button class="btn btn-ghost" onclick="hideAllExpandModels()">🙈 Ẩn Tất Cả Gợi Ý</button>
+          <button class="btn btn-ghost" onclick="clearAllExpandInputs()">🗑️ Xóa Bản Nháp</button>
+        </div>
+      </div>
+
+      <!-- FORMULA BANNER -->
+      <div class="card" style="margin-bottom:24px;">
+        <h3 style="color:#fff;font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px;">💡 Công Thức 3 Bước Mở Rộng Câu Trả Lời VSTEP Speaking Part 1</h3>
+        <div class="formula-bar">
+          <div class="formula-step">
+            <div class="formula-step-num">Bước 1 • Trả Lời Trực Diện</div>
+            <div class="formula-step-title">Direct Answer (3-4 từ)</div>
+            <div class="formula-step-desc">Khẳng định ngay quan điểm: <em>"Yes, I like pop" / "Every day on phone"</em>.</div>
+          </div>
+          <div class="formula-step">
+            <div class="formula-step-num">Bước 2 • Lý Do &amp; Chi Tiết</div>
+            <div class="formula-step-title">Why &amp; Details (Because / When...)</div>
+            <div class="formula-step-desc">Giải thích tại sao, nghe khi nào, với ai: <em>"because the tunes are catchy and lively"</em>.</div>
+          </div>
+          <div class="formula-step">
+            <div class="formula-step-num">Bước 3 • Cảm Xúc &amp; Lợi Ích</div>
+            <div class="formula-step-title">Feelings &amp; Impact</div>
+            <div class="formula-step-desc">Nêu tác động tích cực đến tâm trạng: <em>"which helps me unwind and boost my mood"</em>.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPAND CARDS CONTAINER -->
+      <div id="expandCardsContainer"></div>
+    </section>
+
+  </main>
+
+  <div class="floating-timer">
+    <div class="timer-display" id="floatTimerVal">00:45</div>
+    <button class="btn btn-ghost" id="timerStartBtn" style="padding:6px 10px;font-size:0.9rem;" onclick="toggleFloatTimer()">▶️</button>
+    <button class="btn btn-ghost" style="padding:6px 10px;font-size:0.9rem;" onclick="resetFloatTimer()">🔄</button>
+  </div>
+
+  <script>
+    // ===== DATA =====
+    const WARMUP_SONGS = [
+      {title:"Từng Là",artist:"Vũ Cát Tường",genre:"Ballad",desc:"Giai điệu nhẹ nhàng, sâu lắng, ca từ đượm buồn về tình yêu đã qua.",options:["Pop","Ballad","Dance-Pop","Rock"],answer:"Ballad",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/cf/44/1a/cf441a45-7204-2f6d-7a4a-19d29161b096/mzaf_9111245827366245499.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/e5/04/b8/e504b8de-8b2b-d9bf-ff1a-38318ac7abc3/24UMGIM20213.rgb.jpg/100x100bb.jpg"},
+      {title:"Waiting For You",artist:"MONO",genre:"Pop",desc:"Giai điệu điện tử bắt tai thập niên 80, bùng nổ mạng xã hội.",options:["Classical","Folk Music","Acoustic","Pop"],answer:"Pop",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/41/de/66/41de66a0-843f-e28e-2e0e-70ebb456d1b1/mzaf_1737848243554449634.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/42/b6/13/42b6139f-7e7a-c801-9823-f48522ad002e/22UMGIM86209.rgb.jpg/100x100bb.jpg"},
+      {title:"Nấu Ăn Cho Em",artist:"Đen (ft. PiaLinh)",genre:"Rap / Hip-hop",desc:"Lời rap mộc mạc, ý nghĩa về sự sẻ chia với các em nhỏ vùng cao.",options:["Rap / Hip-hop","Electronic","Jazz","Classical"],answer:"Rap / Hip-hop",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/52/40/39/524039ea-9627-4c87-edf9-253da23b7cab/mzaf_5902347394423236694.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/ae/38/15/ae381526-e1b2-2664-7a1b-9677625d87f4/cover.jpg/100x100bb.jpg"},
+      {title:"Cắt Đôi Nỗi Sầu",artist:"Tăng Duy Tân",genre:"Dance-Pop / House",desc:"Tiết tấu dồn dập, nhịp điệu cuốn hút, cực kỳ trendy trên TikTok.",options:["Traditional Folk","Indie Ballad","Dance-Pop / House","Classical"],answer:"Dance-Pop / House",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e3/8d/34/e38d34c8-3c91-99a9-d9a1-8b35c5890cd4/mzaf_6247707034244535630.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/71/0e/b1/710eb18f-b453-791c-64cc-a768c017f0ca/7316475702411_cover.jpg/100x100bb.jpg"},
+      {title:"Trống Cơm",artist:"Tự Long, SOOBIN, Cường Seven",genre:"Folk Music / Traditional Fusion",desc:"Giao thoa đỉnh cao giữa dân ca Bắc Bộ, đàn bầu và âm hưởng hiện đại.",options:["Hip-hop / Trap","Folk Music / Fusion","Pop / Dance","Acoustic Ballad"],answer:"Folk Music / Fusion",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3a/d6/5b/3ad65b5b-f7ea-dcf8-c39d-253a9c6de751/mzaf_10738684111406320117.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/1d/c2/bc/1dc2bc7a-8065-7f72-c212-b23be715f53c/24UMGIM79289.rgb.jpg/100x100bb.jpg"},
+      {title:"Canon in D",artist:"Johann Pachelbel",genre:"Classical / Instrumental Music",desc:"Bản hòa tấu không lời kinh điển thế giới với giai điệu êm dịu, giúp thư giãn tinh thần.",options:["Pop","Rock / Rap","Folk Music","Classical / Instrumental"],answer:"Classical / Instrumental",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/45/3f/90/453f902a-6970-74b9-22a9-487dda917fe1/mzaf_3862563401095425798.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Features/0c/fd/e7/dj.eaioxuxw.tif/100x100bb.jpg"},
+      {title:"Giá Như",artist:"SOOBIN",genre:"R&B / Soul",desc:"Bản R&B cảm xúc khoe trọn giọng hát kỹ thuật và tài năng nghệ sĩ đa năng.",options:["R&B / Soul","Heavy Metal","Classical","Traditional Folk"],answer:"R&B / Soul",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/96/d2/ff/96d2ffde-c36d-c4e7-379e-f22311348362/mzaf_17188109553032806637.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/97/d2/5c/97d25cf4-0513-fa4a-809c-6c85502d4fda/085365595453.jpg/100x100bb.jpg"},
+      {title:"À Lôi",artist:"Double2T (ft. Masew)",genre:"Folk Rap / Hip-hop",desc:"Sự kết hợp độc đáo giữa tiếng khèn vùng cao Tây Bắc và nhịp beat hiện đại.",options:["Ballad","Classical","Folk Rap","Soul"],answer:"Folk Rap",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/cf/78/ad/cf78ad0d-6ae8-b570-ac89-fcbf4c00199f/mzaf_16447667764846573197.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/67/af/0d/67af0dfa-8292-1747-b4f4-7cc9b48c2a98/7316474841708_cover.jpg/100x100bb.jpg"},
+      {title:"Bao Tiền Một Mớ Bình Yên",artist:"14 Casper & Bon",genre:"Acoustic / Indie Ballad",desc:"Mộc mạc với tiếng đàn guitar acoustic, giai điệu chữa lành và xoa dịu tâm trí.",options:["Dance-Pop","Acoustic Ballad","Folk Rap","Rock"],answer:"Acoustic Ballad",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/32/54/af/3254afec-6bcb-11e3-4ad3-f693d0dd07c5/mzaf_4268373768445388621.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/22/fe/2d/22fe2de9-963d-b962-54cc-f619c4c366ad/cover.jpg/100x100bb.jpg"},
+      {title:"See Tình",artist:"Hoàng Thùy Linh",genre:"Dance-Pop / Folk Fusion",desc:"Bản hit quốc tế viral toàn cầu với nhịp điệu tươi vui, trẻ trung và tràn đầy năng lượng.",options:["Heavy Metal","Classical","Acoustic","Dance-Pop"],answer:"Dance-Pop",preview:"https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e8/31/99/e83199ff-26e7-4879-9983-92b24d888d5e/mzaf_6511605706322867250.plus.aac.p.m4a",artwork:"https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/80/bc/67/80bc6745-2237-0025-d13e-fb1874b2b39a/886449935581.jpg/100x100bb.jpg"}
+    ];
+
+    const VOCAB_DATA = [
+      {id:1,word:"Types of music",pos:"n phr",ipa:"/taɪps əv ˈmjuː.zɪk/",meaning:"Các thể loại âm nhạc"},
+      {id:2,word:"Musical instrument",pos:"n phr",ipa:"/ˈmjuː.zɪ.kəl ˈɪn.strə.mənt/",meaning:"Nhạc cụ"},
+      {id:3,word:"Ballad",pos:"n",ipa:"/ˈbæl.əd/",meaning:"Nhạc ballad (giai điệu chậm, nhẹ nhàng, sâu lắng)"},
+      {id:4,word:"Folk music / Traditional music",pos:"n phr",ipa:"/fəʊk ˈmjuː.zɪk/ - /trəˈdɪʃ.ən.əl/",meaning:"Nhạc dân ca / nhạc truyền thống"},
+      {id:5,word:"Classical music",pos:"n phr",ipa:"/ˈklæs.ɪ.kəl ˈmjuː.zɪk/",meaning:"Nhạc cổ điển"},
+      {id:6,word:"Singer / Artist",pos:"n",ipa:"/ˈsɪŋ.ər/ - /ˈɑː.tɪst/",meaning:"Ca sĩ / nghệ sĩ"},
+      {id:7,word:"Celebrity",pos:"n",ipa:"/səˈleb.rə.ti/",meaning:"Người nổi tiếng"},
+      {id:8,word:"Meaningful lyrics",pos:"n phr",ipa:"/ˈmiː.nɪŋ.fəl ˈlɪr.ɪks/",meaning:"Ca từ ý nghĩa, sâu sắc"},
+      {id:9,word:"Chorus",pos:"n",ipa:"/ˈkɔː.rəs/",meaning:"Điệp khúc"},
+      {id:10,word:"Melody",pos:"n",ipa:"/ˈmel.ə.di/",meaning:"Giai điệu"},
+      {id:11,word:"Live concert",pos:"n phr",ipa:"/laɪv ˈkɒn.sət/",meaning:"Buổi hòa nhạc trực tiếp"},
+      {id:12,word:"Music festival",pos:"n phr",ipa:"/ˈmjuː.zɪk ˈfes.tɪ.vəl/",meaning:"Lễ hội âm nhạc"},
+      {id:13,word:"Be a big fan of",pos:"v phr",ipa:"/bi ə bɪɡ fæn əv/",meaning:"Là fan cứng của"},
+      {id:14,word:"Be into",pos:"v phr",ipa:"/bi ˈɪn.tuː/",meaning:"Rất thích, đam mê"},
+      {id:15,word:"Favorite genre",pos:"n phr",ipa:"/ˈfeɪ.vər.ɪt ˈʒɒn.rə/",meaning:"Thể loại yêu thích"},
+      {id:16,word:"Musical performance",pos:"n phr",ipa:"/ˈmjuː.zɪ.kəl pəˈfɔː.məns/",meaning:"Buổi biểu diễn âm nhạc"},
+      {id:17,word:"Massive hit / Big hit",pos:"n phr",ipa:"/ˈmæs.ɪv hɪt/",meaning:"Bản hit lớn, thành công vang dội"},
+      {id:18,word:"A huge following",pos:"n phr",ipa:"/ə hjuːdʒ ˈfɒl.əʊ.ɪŋ/",meaning:"Lượng người hâm mộ đông đảo"},
+      {id:19,word:"Adoring fans",pos:"n phr",ipa:"/əˈdɔː.rɪŋ fænz/",meaning:"Người hâm mộ cuồng nhiệt"},
+      {id:20,word:"Taste in music",pos:"n phr",ipa:"/teɪst ɪn ˈmjuː.zɪk/",meaning:"Gu âm nhạc"},
+      {id:21,word:"A piece of music",pos:"n phr",ipa:"/ə piːs əv ˈmjuː.zɪk/",meaning:"Một bản nhạc, tác phẩm âm nhạc"},
+      {id:22,word:"Memorable concert",pos:"n phr",ipa:"/ˈmem.ər.ə.bəl ˈkɒn.sət/",meaning:"Buổi hòa nhạc đáng nhớ"},
+      {id:23,word:"Influence our emotions",pos:"v phr",ipa:"/ˈɪn.flu.əns ˈaʊ.ər ɪˈməʊ.ʃənz/",meaning:"Tác động đến cảm xúc của chúng ta"},
+      {id:24,word:"Prefer live to recorded music",pos:"v phr",ipa:"/prɪˈfɜː laɪv tuː rɪˈkɔː.dɪd ˈmjuː.zɪk/",meaning:"Thích nghe nhạc trực tiếp hơn bản thu"},
+      {id:25,word:"Catchy tune",pos:"n phr",ipa:"/ˈkætʃ.i tjuːn/",meaning:"Giai điệu dễ nghe, dễ nhớ"},
+      {id:26,word:"Cheer sb up",pos:"v phr",ipa:"/tʃɪər ... ʌp/",meaning:"Làm ai đó vui lên"},
+      {id:27,word:"Sing along to",pos:"v phr",ipa:"/sɪŋ əˈlɒŋ tuː/",meaning:"Hát theo"},
+      {id:28,word:"Release an album",pos:"v phr",ipa:"/rɪˈliːs ən ˈæl.bəm/",meaning:"Phát hành album"},
+      {id:29,word:"Instrumental music",pos:"n phr",ipa:"/ˌɪn.strəˈmen.təl ˈmjuː.zɪk/",meaning:"Nhạc không lời"},
+      {id:30,word:"Boost mood / Lift one's spirits",pos:"v phr",ipa:"/buːst muːd/ - /lɪft wʌnz ˈspɪr.ɪts/",meaning:"Nâng cao tâm trạng / làm phấn chấn"},
+      {id:31,word:"Relieve stress / Reduce anxiety",pos:"v phr",ipa:"/rɪˈliːv stres/ - /rɪˈdjuːs æŋˈzaɪ.ə.ti/",meaning:"Giải tỏa căng thẳng / giảm lo âu"},
+      {id:32,word:"Unwind",pos:"v",ipa:"/ʌnˈwaɪnd/",meaning:"Thư giãn, xả stress"}
+    ];
+
+    // ===== TAB 5: EXPAND SHORT ANSWERS DATA =====
+    const EXPAND_DATA = [
+      {
+        id: 1,
+        question: "Do you like listening to music? What kind?",
+        short: "Yes, I like pop.",
+        hint: "Mở rộng: Thêm lý do thích pop (bắt tai, vui tươi) và cảm xúc (giúp thư giãn sau khi học).",
+        b1: "Yes, I love music, especially pop. The songs are very catchy, so they help me relax after school.",
+        b2: "To be completely honest, I am a huge fan of upbeat pop music. The infectious melodies and meaningful lyrics always boost my mood and help me relieve stress whenever I feel overwhelmed."
+      },
+      {
+        id: 2,
+        question: "How often do you listen to music?",
+        short: "Every day on phone.",
+        hint: "Mở rộng: Thời điểm cụ thể (khi đi xe bus, trước khi ngủ) và nghe bằng tai nghe trên điện thoại.",
+        b1: "I listen to music every day on my phone. I usually listen with headphones on the bus or before bed.",
+        b2: "Listening to music has become an indispensable part of my daily routine. I stream my favorite playlists while commuting to university, which keeps me refreshed and motivated throughout the day."
+      },
+      {
+        id: 3,
+        question: "Who is your favorite singer or band?",
+        short: "Sơn Tùng M-TP.",
+        hint: "Mở rộng: Nêu lý do yêu thích (hát hay, có nhiều bài hit nổi tiếng tại Việt Nam).",
+        b1: "My favorite singer is Sơn Tùng M-TP. He sings very well and has many famous hit songs in Vietnam.",
+        b2: "I have enormous admiration for Sơn Tùng M-TP because he is an exceptionally talented all-rounder who composes his own tracks, commands massive stage presence, and has a huge following of adoring fans."
+      },
+      {
+        id: 4,
+        question: "Can you play any musical instruments?",
+        short: "No, I cannot.",
+        hint: "Mở rộng: Thừa nhận chưa biết chơi, nhưng muốn học đàn guitar trong tương lai.",
+        b1: "No, I cannot play any instruments now. But in the future, I want to learn the guitar because it sounds nice.",
+        b2: "Sadly, I haven't mastered any musical instrument yet. However, if my schedule permits, I would definitely love to learn the piano because producing your own soothing melodies is a wonderful way to unwind."
+      },
+      {
+        id: 5,
+        question: "When do you usually listen to music?",
+        short: "When I study.",
+        hint: "Mở rộng: Nghe nhạc nhẹ khi học bài để tập trung hơn vào bài tập.",
+        b1: "I usually listen to music when I study. I like soft music because it helps me focus on my homework.",
+        b2: "I frequently play classical pieces or gentle instrumental tracks in the background while studying. Since there are no lyrics to distract me, it sharpens my concentration and keeps mental fatigue away."
+      },
+      {
+        id: 6,
+        question: "Do you prefer live concerts or recorded music?",
+        short: "I prefer live.",
+        hint: "Mở rộng: Thích đi xem trực tiếp vì không khí sôi động và được hát cùng người hâm mộ.",
+        b1: "I prefer live concerts because the atmosphere is exciting and I can sing along with other fans.",
+        b2: "I would definitely choose live musical performances over recorded tracks. Feeling the raw energy of the artist on stage and singing alongside adoring crowds creates unforgettable memories that studio recordings cannot match."
+      },
+      {
+        id: 7,
+        question: "How does music influence your emotions?",
+        short: "Makes me feel happy.",
+        hint: "Mở rộng: Bài hát vui tươi giúp vui vẻ hơn khi mệt mỏi hoặc buồn.",
+        b1: "Music makes me feel happy. When I am sad or tired, a cheerful song can easily cheer me up.",
+        b2: "Music has a profound impact on my emotional state. Upbeat tunes instantly lift my spirits on gloomy days, whereas gentle melodies help soothe my mind and ease anxiety after hectic working hours."
+      },
+      {
+        id: 8,
+        question: "Would you like to attend a music festival next summer?",
+        short: "Yes, with friends.",
+        hint: "Mở rộng: Muốn đi cùng bạn bè để xem ca sĩ nổi tiếng và có thời gian vui vẻ bên nhau.",
+        b1: "Yes, definitely! I would love to go to a music festival with my friends to see famous singers and have fun together.",
+        b2: "Without a doubt! Immersing myself in a massive outdoor music festival with my friends would be a dream experience, as we could celebrate our youth, dance to our favorite songs, and enjoy world-class live stages."
+      }
+    ];
+
+    // ===== ACTIVITY 1 DATA =====
+    const ACT1_CATEGORIES = [
+      {id:"type-music",label:"🎼 Types of Music",cls:"cat-type-music",words:["Types of music","Ballad","Folk music / Traditional music","Classical music","Instrumental music"]},
+      {id:"people",label:"👤 People in Music",cls:"cat-people",words:["Singer / Artist","Celebrity","Adoring fans","A huge following"]},
+      {id:"events",label:"🎪 Music Events & Performances",cls:"cat-events",words:["Musical performance","Live concert","Music festival","Memorable concert"]},
+      {id:"parts",label:"🎵 Parts & Features of a Song",cls:"cat-parts",words:["Meaningful lyrics","Chorus","Melody","A piece of music","Catchy tune","Massive hit / Big hit"]},
+      {id:"prefs",label:"❤️ Music Preferences",cls:"cat-prefs",words:["Be a big fan of","Be into","Favourite genre","Taste in music","Prefer live to recorded music"]},
+      {id:"feelings",label:"😌 Feelings & Benefits",cls:"cat-feelings",words:["Influence our emotions","Cheer sb up","Boost mood / Lift one's spirits","Relieve stress / Reduce anxiety","Unwind"]}
+    ];
+
+    // Build flat word→category map
+    const WORD_TO_CAT = {};
+    ACT1_CATEGORIES.forEach(cat => cat.words.forEach(w => { WORD_TO_CAT[w] = cat.id; }));
+    const ALL_ACT1_WORDS = ACT1_CATEGORIES.flatMap(c => c.words);
+
+    // ===== NAVIGATION =====
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-panel').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+      const btn = Array.from(document.querySelectorAll('.nav-tab')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
+      if (btn) btn.classList.add('active');
+    }
+
+    // ===== WARM-UP GAME =====
+    let currentTrackIdx = 0, score = 0, hasAnswered = false;
+    const audioPlayer = document.getElementById('warmupAudioPlayer');
+    const vinylRecord = document.getElementById('vinylRecord');
+    const playBtnIcon = document.getElementById('playBtnIcon');
+    const playBtnText = document.getElementById('playBtnText');
+
+    function loadTrack(idx) {
+      currentTrackIdx = idx; hasAnswered = false;
+      const song = WARMUP_SONGS[idx];
+      audioPlayer.src = song.preview; audioPlayer.pause();
+      vinylRecord.classList.remove('playing');
+      playBtnIcon.innerText = '▶️'; playBtnText.innerText = 'Nghe Đoạn Nhạc (30s)';
+      document.getElementById('trackCountBadge').innerText = `Bài ${idx+1} / ${WARMUP_SONGS.length}`;
+      document.getElementById('revealCard').style.display = 'none';
+      const grid = document.getElementById('optionsGrid'); grid.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      song.options.forEach((opt, oIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'opt-btn';
+        btn.innerHTML = `<span class="opt-letter">${letters[oIdx]}</span> <span>${opt}</span>`;
+        btn.onclick = () => selectOption(btn, opt, song);
+        grid.appendChild(btn);
+      });
+      renderPlaylistBar();
+    }
+
+    function togglePlayPreview() {
+      if (audioPlayer.paused) { audioPlayer.play(); vinylRecord.classList.add('playing'); playBtnIcon.innerText='⏸️'; playBtnText.innerText='Tạm Dừng'; }
+      else { audioPlayer.pause(); vinylRecord.classList.remove('playing'); playBtnIcon.innerText='▶️'; playBtnText.innerText='Tiếp Tục Phát'; }
+    }
+    function replayPreview() { audioPlayer.currentTime=0; audioPlayer.play(); vinylRecord.classList.add('playing'); playBtnIcon.innerText='⏸️'; playBtnText.innerText='Tạm Dừng'; }
+    function onAudioEnded() { vinylRecord.classList.remove('playing'); playBtnIcon.innerText='▶️'; playBtnText.innerText='Nghe Lại'; }
+
+    function selectOption(btn, chosen, song) {
+      if (hasAnswered) return; hasAnswered = true;
+      const isCorrect = song.answer ? (chosen === song.answer) : (chosen.toLowerCase().includes(song.genre.split('/')[0].trim().toLowerCase()) || song.genre.toLowerCase().includes(chosen.toLowerCase()));
+      document.querySelectorAll('.opt-btn').forEach((b, bIdx) => {
+        b.disabled = true;
+        const optVal = song.options[bIdx];
+        const isOptCorrect = song.answer ? (optVal === song.answer) : (optVal.toLowerCase().includes(song.genre.split('/')[0].trim().toLowerCase()) || song.genre.toLowerCase().includes(optVal.toLowerCase()));
+        if (isOptCorrect) b.classList.add('correct');
+      });
+      if (isCorrect) { btn.classList.add('correct'); score++; document.getElementById('gameScoreBadge').innerText=`Điểm: ${score} / ${WARMUP_SONGS.length}`; }
+      else { btn.classList.add('wrong'); }
+      const reveal = document.getElementById('revealCard');
+      document.getElementById('revealArtwork').src = song.artwork;
+      document.getElementById('revealTitle').innerText = song.title;
+      document.getElementById('revealArtist').innerText = `Ca sĩ / Nghệ sĩ: ${song.artist}`;
+      document.getElementById('revealGenre').innerText = `Thể loại: ${song.genre}`;
+      document.getElementById('revealDesc').innerText = song.desc;
+      reveal.style.display = 'block';
+      renderPlaylistBar();
+    }
+
+    function nextTrack() {
+      if (currentTrackIdx < WARMUP_SONGS.length - 1) loadTrack(currentTrackIdx + 1);
+      else alert(`🎉 Chúc mừng! Điểm số: ${score} / ${WARMUP_SONGS.length}`);
+    }
+    function restartWarmupGame() { score=0; document.getElementById('gameScoreBadge').innerText=`Điểm: 0 / ${WARMUP_SONGS.length}`; loadTrack(0); }
+    function renderPlaylistBar() {
+      const bar = document.getElementById('playlistBar'); bar.innerHTML = '';
+      WARMUP_SONGS.forEach((s,idx) => {
+        const chip = document.createElement('button');
+        chip.className = `playlist-chip ${idx===currentTrackIdx?'active':''}`;
+        chip.innerText = `${idx+1}. ${s.title}`; chip.onclick = ()=>loadTrack(idx);
+        bar.appendChild(chip);
+      });
+    }
+
+    // ===== VOCAB TABLE =====
+    function renderVocabTable() {
+      const tbody = document.getElementById('vocabTableBody'); tbody.innerHTML = '';
+      VOCAB_DATA.forEach(v => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td style="color:var(--text-muted);font-weight:700;">${v.id}</td><td><strong style="color:#fff;">${v.word}</strong> <span class="vocab-badge">${v.pos}</span></td><td style="color:var(--primary-light);font-family:monospace;">${v.ipa}</td><td style="color:var(--text-sub);font-weight:500;">${v.meaning}</td><td style="text-align:center;"><button class="btn btn-ghost" style="padding:3px 8px;font-size:0.8rem;" onclick="speakWord('${v.word.replace(/'/g,"\\'")}')">🔊</button></td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    function filterVocabTable() {
+      const q = document.getElementById('vocabSearchInput').value.toLowerCase();
+      document.querySelectorAll('#vocabTableBody tr').forEach(row => { row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none'; });
+    }
+    function speakWord(text) { if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text); u.lang='en-US'; u.rate=0.9; window.speechSynthesis.speak(u); } }
+
+    // ===== TAB 3: VOCAB CHALLENGE HELPERS =====
+    let act1AnswersShown = false;
+    function act1ToggleAnswers() {
+      const btn = document.getElementById('act1ToggleAnsBtn');
+      const keyBox = document.getElementById('act1AnswerKeyBox');
+      if (!act1AnswersShown) {
+        act1AnswersShown = true;
+        if (btn) btn.innerText = '🙈 Ẩn Đáp Án / Tự Phân Loại';
+        if (keyBox) keyBox.style.display = 'block';
+        ACT1_CATEGORIES.forEach(cat => {
+          const catContainer = document.getElementById(`catWords_${cat.id}`);
+          if (catContainer) {
+            catContainer.innerHTML = '';
+            cat.words.forEach(w => {
+              act1Placed[w] = cat.id;
+              const chip = document.createElement('div');
+              chip.className = `cat-word-chip ${cat.cls}`;
+              chip.dataset.word = w;
+              chip.style.outline = '2px solid #34d399';
+              chip.innerHTML = `✔ ${w} <span style="opacity:0.6;font-size:0.75em;">↩</span>`;
+              chip.title = 'Click để trả lại ô tổng hợp';
+              const pill = document.querySelector(`.vocab-pill[data-word="${w.replace(/"/g,'\\"')}"]`);
+              chip.onclick = () => act1ReturnWord(w, chip, pill);
+              catContainer.appendChild(chip);
+            });
+          }
+        });
+        document.querySelectorAll('.vocab-pill').forEach(p => p.classList.add('placed'));
+        document.getElementById('act1ScorePill').innerText = `✔ Đã hiển thị đáp án: ${ALL_ACT1_WORDS.length} / ${ALL_ACT1_WORDS.length}`;
+        const msg = document.getElementById('act1ResultMsg');
+        msg.innerText = '🎉 Đáp án chuẩn của 6 nhóm từ vựng Music!';
+        msg.style.color = '#34d399';
+      } else {
+        act1Reset();
+      }
+    }
+
+    // ===== TAB 5: EXPAND SHORT ANSWERS =====
+    function renderExpandQuestions() {
+      const container = document.getElementById('expandCardsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      EXPAND_DATA.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'expand-card';
+        card.id = `expCard_${item.id}`;
+        card.innerHTML = `
+          <div class="expand-header">
+            <div class="expand-qtitle">${item.id}. ${item.question}</div>
+            <div class="short-ans-pill">⚠️ Câu trả lời ngắn (3-4 từ): "<strong>${item.short}</strong>"</div>
+          </div>
+          <p class="expand-hint">💡 <em>${item.hint}</em></p>
+          <textarea class="expand-textarea" id="expInput_${item.id}" placeholder="✍️ Nhập hoặc luyện nói câu trả lời mở rộng của bạn tại đây..."></textarea>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <button class="btn btn-primary" style="padding:6px 14px;font-size:0.84rem;" onclick="toggleExpandModel(${item.id})">
+              <span id="expBtnIcon_${item.id}">👁️</span> <span id="expBtnText_${item.id}">Xem Mở Rộng Mẫu (B1 &amp; B2)</span>
+            </button>
+            <button class="btn btn-teal" style="padding:6px 14px;font-size:0.84rem;" onclick="triggerQuickTimer(45)">⏱️ Bấm Giờ Luyện Nói 45s</button>
+          </div>
+          <div class="expand-models-box" id="expModel_${item.id}">
+            <div class="answers-comparison" style="margin-top:14px;">
+              <div class="sample-box sample-b1">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                  <strong style="color:#2dd4bf;font-size:0.88rem;">Band B1 (Mở rộng tự nhiên, mạch lạc):</strong>
+                  <button class="btn btn-ghost" style="padding:2px 8px;font-size:0.75rem;" onclick="speakWord(this.dataset.t)" data-t="${item.b1.replace(/"/g,'&quot;')}">🔊 Nghe</button>
+                </div>
+                <p style="color:var(--text-sub);line-height:1.55;font-size:0.92rem;">${item.b1}</p>
+              </div>
+              <div class="sample-box sample-b2">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                  <strong style="color:var(--primary-light);font-size:0.88rem;">Band B2 (Từ vựng phong phú, sâu sắc):</strong>
+                  <button class="btn btn-ghost" style="padding:2px 8px;font-size:0.75rem;" onclick="speakWord(this.dataset.t)" data-t="${item.b2.replace(/"/g,'&quot;')}">🔊 Nghe</button>
+                </div>
+                <p style="color:var(--text-sub);line-height:1.55;font-size:0.92rem;">${item.b2}</p>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleExpandModel(id) {
+      const box = document.getElementById(`expModel_${id}`);
+      const icon = document.getElementById(`expBtnIcon_${id}`);
+      const text = document.getElementById(`expBtnText_${id}`);
+      if (!box) return;
+      if (box.style.display === 'block') {
+        box.style.display = 'none';
+        if (icon) icon.innerText = '👁️';
+        if (text) text.innerText = 'Xem Mở Rộng Mẫu (B1 & B2)';
+      } else {
+        box.style.display = 'block';
+        if (icon) icon.innerText = '🙈';
+        if (text) text.innerText = 'Ẩn Gợi Ý Mẫu';
+      }
+    }
+
+    function showAllExpandModels() {
+      EXPAND_DATA.forEach(item => {
+        const box = document.getElementById(`expModel_${item.id}`);
+        const icon = document.getElementById(`expBtnIcon_${item.id}`);
+        const text = document.getElementById(`expBtnText_${item.id}`);
+        if (box) box.style.display = 'block';
+        if (icon) icon.innerText = '🙈';
+        if (text) text.innerText = 'Ẩn Gợi Ý Mẫu';
+      });
+    }
+
+    function hideAllExpandModels() {
+      EXPAND_DATA.forEach(item => {
+        const box = document.getElementById(`expModel_${item.id}`);
+        const icon = document.getElementById(`expBtnIcon_${item.id}`);
+        const text = document.getElementById(`expBtnText_${item.id}`);
+        if (box) box.style.display = 'none';
+        if (icon) icon.innerText = '👁️';
+        if (text) text.innerText = 'Xem Mở Rộng Mẫu (B1 & B2)';
+      });
+    }
+
+    function clearAllExpandInputs() {
+      EXPAND_DATA.forEach(item => {
+        const input = document.getElementById(`expInput_${item.id}`);
+        if (input) input.value = '';
+      });
+    }
+
+    // ===== ACTIVITY 1: BAY BAY VOCAB =====
+    let act1Placed = {}; // word -> catId (or null)
+
+    function act1Init() {
+      act1Placed = {};
+      // Render pool
+      const pool = document.getElementById('act1Pool'); pool.innerHTML = '';
+      const shuffled = [...ALL_ACT1_WORDS].sort(() => Math.random() - 0.5);
+      shuffled.forEach((w, i) => {
+        const pill = document.createElement('div');
+        pill.className = 'vocab-pill'; pill.innerText = w;
+        pill.style.animationDelay = (i * 0.05) + 's';
+        pill.dataset.word = w;
+        pill.onclick = () => act1PillClick(w, pill);
+        pool.appendChild(pill);
+      });
+      // Render category boxes
+      const grid = document.getElementById('act1CatGrid'); grid.innerHTML = '';
+      ACT1_CATEGORIES.forEach(cat => {
+        const box = document.createElement('div');
+        box.className = `cat-box ${cat.cls}`; box.id = `catBox_${cat.id}`;
+        box.innerHTML = `<div class="cat-box-title">${cat.label}</div><div class="cat-words" id="catWords_${cat.id}"></div>`;
+        grid.appendChild(box);
+      });
+      act1UpdateScore();
+      document.getElementById('act1ResultMsg').innerText = '';
+    }
+
+    function act1PillClick(word, pillEl) {
+      if (act1Placed[word]) return; // already placed → ignore (click chip to return)
+      // Prompt: which cat to place in? For simplicity, place into correct cat directly on click (educator mode) — or pick from a simple list
+      // We'll use a modal-free approach: clicking shows a mini dropdown below
+      act1ShowCatPicker(word, pillEl);
+    }
+
+    function act1ShowCatPicker(word, pillEl) {
+      // Remove existing picker if any
+      const old = document.getElementById('act1Picker'); if(old) old.remove();
+      const picker = document.createElement('div');
+      picker.id = 'act1Picker';
+      picker.style.cssText = 'position:fixed;z-index:2000;background:#1e1b4b;border:1px solid var(--border-accent);border-radius:12px;padding:12px;box-shadow:0 12px 40px rgba(0,0,0,0.7);min-width:220px;';
+      picker.innerHTML = `<div style="font-family:Outfit,sans-serif;font-size:0.78rem;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">🗂️ Chọn nhóm cho "<strong style="color:#fff">${word}</strong>":</div>`;
+      ACT1_CATEGORIES.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.style.cssText = 'display:block;width:100%;text-align:left;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:#fff;font-family:Outfit,sans-serif;font-size:0.82rem;cursor:pointer;margin-bottom:6px;transition:all 0.2s;';
+        btn.innerText = cat.label;
+        btn.onmouseenter = () => btn.style.background='rgba(139,92,246,0.25)';
+        btn.onmouseleave = () => btn.style.background='rgba(255,255,255,0.04)';
+        btn.onclick = (e) => { e.stopPropagation(); picker.remove(); act1PlaceWord(word, cat.id, pillEl); };
+        picker.appendChild(btn);
+      });
+      const cancelBtn = document.createElement('button');
+      cancelBtn.style.cssText = 'display:block;width:100%;text-align:center;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:5px 12px;color:#f87171;font-size:0.8rem;cursor:pointer;';
+      cancelBtn.innerText = '✕ Huỷ'; cancelBtn.onclick = () => picker.remove();
+      picker.appendChild(cancelBtn);
+      document.body.appendChild(picker);
+      const rect = pillEl.getBoundingClientRect();
+      picker.style.top = Math.min(rect.bottom + 8, window.innerHeight - picker.offsetHeight - 20) + 'px';
+      picker.style.left = Math.min(rect.left, window.innerWidth - 250) + 'px';
+      setTimeout(() => document.addEventListener('click', function closePicker(ev) { if(!picker.contains(ev.target)){picker.remove();document.removeEventListener('click',closePicker);} }), 50);
+    }
+
+    function act1PlaceWord(word, catId, pillEl) {
+      act1Placed[word] = catId;
+      pillEl.classList.add('placed');
+      // Add chip to category
+      const catObj = ACT1_CATEGORIES.find(c => c.id === catId);
+      const chip = document.createElement('div'); chip.className=`cat-word-chip ${catObj.cls}`; chip.dataset.word=word;
+      chip.innerHTML = word + ' <span style="opacity:0.6;font-size:0.75em;">✕</span>';
+      chip.title = 'Click để trả lại ô tổng hợp';
+      chip.onclick = () => act1ReturnWord(word, chip, pillEl);
+      document.getElementById(`catWords_${catId}`).appendChild(chip);
+      act1UpdateScore();
+    }
+
+    function act1ReturnWord(word, chipEl, pillEl) {
+      chipEl.remove();
+      delete act1Placed[word];
+      pillEl.classList.remove('placed');
+      act1UpdateScore();
+      document.getElementById('act1ResultMsg').innerText = '';
+    }
+
+    function act1UpdateScore() {
+      const total = ALL_ACT1_WORDS.length;
+      const placed = Object.keys(act1Placed).length;
+      document.getElementById('act1ScorePill').innerText = `✔ Đã phân loại: ${placed} / ${total}`;
+    }
+
+    function act1CheckAll() {
+      let correct=0, wrong=0;
+      Object.entries(act1Placed).forEach(([word, placedCatId]) => {
+        const correctCatId = WORD_TO_CAT[word];
+        const chips = document.querySelectorAll(`#catWords_${placedCatId} .cat-word-chip`);
+        chips.forEach(chip => {
+          if(chip.dataset.word === word) {
+            if(placedCatId === correctCatId) { correct++; chip.style.outline='2px solid #34d399'; }
+            else { wrong++; chip.style.outline='2px solid #f87171'; }
+          }
+        });
+      });
+      const unplaced = ALL_ACT1_WORDS.length - Object.keys(act1Placed).length;
+      let msg = `✅ Đúng: ${correct}  ❌ Sai: ${wrong}  ⬜ Chưa phân loại: ${unplaced}`;
+      document.getElementById('act1ResultMsg').innerText = msg;
+      document.getElementById('act1ResultMsg').style.color = wrong===0 && unplaced===0 ? '#34d399' : '#fbbf24';
+    }
+
+    function act1Reset() {
+      act1AnswersShown = false;
+      const btn = document.getElementById('act1ToggleAnsBtn');
+      if (btn) btn.innerText = '👁️ Hiển Thị Đáp Án 6 Nhóm';
+      const keyBox = document.getElementById('act1AnswerKeyBox');
+      if (keyBox) keyBox.style.display = 'none';
+      const chips = document.querySelectorAll('.cat-word-chip'); chips.forEach(c=>c.remove());
+      act1Init();
+    }
+
+    // ===== ACTIVITY 2 HELPERS =====
+    function toggleModel(id) {
+      const box = document.getElementById(id);
+      if (!box) return;
+      box.classList.toggle('open');
+    }
+    function act2ShowAll() { document.querySelectorAll('.model-answer-box').forEach(b => b.classList.add('open')); }
+    function act2HideAll() { document.querySelectorAll('.model-answer-box').forEach(b => b.classList.remove('open')); }
+    function act2ClearAll() { document.querySelectorAll('.act2-textarea').forEach(t => t.value=''); }
+
+    // ===== TIMER =====
+    let timerSec=45, timerInterval=null;
+    function formatTime(s) { const m=Math.floor(s/60),sec=s%60; return `${m<10?'0':''}${m}:${sec<10?'0':''}${sec}`; }
+    function toggleFloatTimer() {
+      const btn=document.getElementById('timerStartBtn'), disp=document.getElementById('floatTimerVal');
+      if(timerInterval) { clearInterval(timerInterval); timerInterval=null; btn.innerText='▶️'; disp.classList.remove('active-run'); }
+      else { btn.innerText='⏸️'; disp.classList.add('active-run'); timerInterval=setInterval(()=>{ if(timerSec>0){timerSec--;disp.innerText=formatTime(timerSec);}else{clearInterval(timerInterval);timerInterval=null;btn.innerText='▶️';disp.classList.remove('active-run');alert('⏰ Hết thời gian luyện nói!');}},1000); }
+    }
+    function resetFloatTimer() { if(timerInterval){clearInterval(timerInterval);timerInterval=null;} document.getElementById('timerStartBtn').innerText='▶️'; document.getElementById('floatTimerVal').classList.remove('active-run'); timerSec=45; document.getElementById('floatTimerVal').innerText='00:45'; }
+    function triggerQuickTimer(seconds) { if(timerInterval){clearInterval(timerInterval);timerInterval=null;} timerSec=seconds; document.getElementById('floatTimerVal').innerText=formatTime(seconds); toggleFloatTimer(); }
+
+    // ===== INIT =====
+    window.onload = () => {
+      loadTrack(0);
+      renderVocabTable();
+      act1Init();
+      renderExpandQuestions();
+    };
+  </script>
+</body>
+</html>
